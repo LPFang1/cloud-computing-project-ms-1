@@ -422,6 +422,11 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 
 A continuación se muestra el diagrama entidad-relación (ER) del modelo principal `Customer` en formato Mermaid. En MongoDB estos son subdocumentos embebidos pero se representan aquí como entidades para mayor claridad.
 
+## 📈 Database ER Diagram (Mermaid)
+
+A continuación se muestra el diagrama entidad-relación (ER) del modelo principal `Customer` en formato Mermaid.  
+En MongoDB estos son subdocumentos embebidos pero se representan aquí como entidades para mayor claridad.
+
 ```mermaid
 erDiagram
   CUSTOMER {
@@ -435,8 +440,8 @@ erDiagram
     string passportNumber
     date registrationDate
     date lastLoginDate
-    enum status {"active","inactive","suspended","pending_verification"}
-    enum complianceStatus {"pending","approved","rejected","under_review"}
+    string status "enum: active | inactive | suspended | pending_verification"
+    string complianceStatus "enum: pending | approved | rejected | under_review"
     string complianceNotes
     date complianceCheckedAt
     boolean emailVerified
@@ -456,7 +461,7 @@ erDiagram
 
   KYCDOCUMENT {
     ObjectId docId
-    enum type {"national_id","passport","driving_license","address_proof","income_proof","other"}
+    string type "enum: national_id | passport | driving_license | address_proof | income_proof | other"
     string filename
     date uploadDate
     boolean verified
@@ -479,5 +484,5 @@ erDiagram
   CUSTOMER ||--o{ KYCDOCUMENT : "has documents"
 
   %% Notas / índices
-  note for CUSTOMER "Índices: phone, status, complianceStatus, address.country" 
-```
+  note for CUSTOMER "Índices: phone, status, complianceStatus, address.country"
+
