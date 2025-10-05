@@ -394,9 +394,33 @@ npm run dev
 - [Integration Guide](./docs/integrations.md) - Guía de integración
 - [Deployment Guide](./docs/deployment.md) - Guía de deployment
 
-## 📈 Diagrama ER (Mermaid)
+## 🤝 Contribución
 
-El siguiente diagrama ER muestra la estructura principal de datos del microservicio MS1 (Customer Service). Los subdocumentos embebidos (Address, KYCDocument, Preferences) se representan como entidades para claridad.
+1. Fork el repositorio
+2. Crear feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
+4. Push al branch (`git push origin feature/AmazingFeature`)
+5. Abrir Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para detalles.
+
+## 👥 Team
+
+- **Desarrollador Principal**: [Tu Nombre]
+- **Arquitecto de Microservicios**: [Nombre del Arquitecto]
+- **DevOps**: [Nombre DevOps]
+
+---
+
+**MS1 - Customer Service v1.0.0**  
+*Parte del ecosistema de microservicios bancarios*  
+🏦 *Banking Microservices Architecture Project*
+
+## 📈 Database ER Diagram (Mermaid)
+
+A continuación se muestra el diagrama entidad-relación (ER) del modelo principal `Customer` en formato Mermaid. En MongoDB estos son subdocumentos embebidos pero se representan aquí como entidades para mayor claridad.
 
 ```mermaid
 erDiagram
@@ -455,30 +479,5 @@ erDiagram
   CUSTOMER ||--o{ KYCDOCUMENT : "has documents"
 
   %% Notas / índices
-  note for CUSTOMER "Índices: phone, status, complianceStatus, address.country"
+  note for CUSTOMER "Índices: phone, status, complianceStatus, address.country" 
 ```
-
-
-## 🤝 Contribución
-
-1. Fork el repositorio
-2. Crear feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para detalles.
-
-## 👥 Team
-
-- **Desarrollador Principal**: [Tu Nombre]
-- **Arquitecto de Microservicios**: [Nombre del Arquitecto]
-- **DevOps**: [Nombre DevOps]
-
----
-
-**MS1 - Customer Service v1.0.0**  
-*Parte del ecosistema de microservicios bancarios*  
-🏦 *Banking Microservices Architecture Project*
