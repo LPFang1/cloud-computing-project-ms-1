@@ -21,7 +21,7 @@ export const helmetConfig = helmet({
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:"],
-      scriptSrc: ["'self'", "https://cdn.tailwindcss.com"],
+  scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "https://cdn.redoc.ly", "blob:"],
       imgSrc: ["'self'", "data:", "https:"],
     },
   },
@@ -161,6 +161,29 @@ export const additionalSecurityHeaders = (req: Request, res: Response, next: Nex
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  
+  // Establecer un Content-Security-Policy explícito que permita la librería de ReDoc
+  // Incluir script-src-elem para permitir la carga de scripts externos insertados por elementos <script>
+  const cspDirectives = [
+    "default-src 'self'",
+    // permitir scripts desde CDN (redoc, tailwind) y blobs (ReDoc usa Worker desde blob:)
+    "script-src 'self' https://cdn.tailwindcss.com https://cdn.redoc.ly blob:",
+    // permitir elementos <script> que carguen la librería de ReDoc
+    "script-src-elem 'self' https://cdn.redoc.ly blob:",
+    // permitir workers construidos desde blobs (necesario para ReDoc)
+    "worker-src 'self' blob:",
+    // para navegadores antiguos o comportamientos, permitir child-src con blob
+    "child-src 'self' blob:",
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+    "font-src 'self' https://cdnjs.cloudflare.com data:",
+    "img-src 'self' data: https:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "upgrade-insecure-requests"
+  ];
+
+  // Si ya existe un CSP configurado por helmet, preferimos añadir/reemplazar con nuestro header explícito
+  res.setHeader('Content-Security-Policy', cspDirectives.join('; '));
   
   next();
 };

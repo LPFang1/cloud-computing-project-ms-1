@@ -394,6 +394,71 @@ npm run dev
 - [Integration Guide](./docs/integrations.md) - Guía de integración
 - [Deployment Guide](./docs/deployment.md) - Guía de deployment
 
+## 📈 Diagrama ER (Mermaid)
+
+El siguiente diagrama ER muestra la estructura principal de datos del microservicio MS1 (Customer Service). Los subdocumentos embebidos (Address, KYCDocument, Preferences) se representan como entidades para claridad.
+
+```mermaid
+erDiagram
+  CUSTOMER {
+    ObjectId id PK
+    string firstName
+    string lastName
+    string email UNIQUE
+    string phone
+    date dateOfBirth
+    string nationalId UNIQUE
+    string passportNumber
+    date registrationDate
+    date lastLoginDate
+    enum status {"active","inactive","suspended","pending_verification"}
+    enum complianceStatus {"pending","approved","rejected","under_review"}
+    string complianceNotes
+    date complianceCheckedAt
+    boolean emailVerified
+    boolean phoneVerified
+    boolean identityVerified
+    date createdAt
+    date updatedAt
+  }
+
+  ADDRESS {
+    string street
+    string city
+    string state
+    string postalCode
+    string country
+  }
+
+  KYCDOCUMENT {
+    ObjectId docId
+    enum type {"national_id","passport","driving_license","address_proof","income_proof","other"}
+    string filename
+    date uploadDate
+    boolean verified
+    string verifiedBy
+    date verifiedAt
+  }
+
+  PREFERENCES {
+    string language
+    string currency
+    boolean marketingConsent
+    boolean notify_email
+    boolean notify_sms
+    boolean notify_push
+  }
+
+  %% Relaciones
+  CUSTOMER ||--|| ADDRESS : "has address"
+  CUSTOMER ||--|| PREFERENCES : "has preferences"
+  CUSTOMER ||--o{ KYCDOCUMENT : "has documents"
+
+  %% Notas / índices
+  note for CUSTOMER "Índices: phone, status, complianceStatus, address.country"
+```
+
+
 ## 🤝 Contribución
 
 1. Fork el repositorio
