@@ -34,7 +34,7 @@ export const helmetConfig = helmet({
 
 // Rate limiting general
 export const generalRateLimit = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'), // 15 minutos
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '0'), // 15 minutos
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100'), // 100 requests por ventana
   message: {
     success: false,
@@ -53,17 +53,10 @@ export const generalRateLimit = rateLimit({
 });
 
 // Rate limiting más estricto para creación de clientes
-export const createCustomerRateLimit = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hora
-  max: 10, // máximo 10 clientes por hora por IP
-  message: {
-    success: false,
-    message: 'Too many customer creation attempts from this IP, please try again later.',
-    retryAfter: '1 hour'
-  },
-  standardHeaders: true,
-  legacyHeaders: false
-});
+// Sin límite para la creación de clientes (deshabilitado)
+export const createCustomerRateLimit = (req: Request, res: Response, next: NextFunction): void => {
+  next();
+};
 
 // Middleware para validar Content-Type en requests con body
 export const validateContentType = (req: Request, res: Response, next: NextFunction): void => {
